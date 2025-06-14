@@ -56,7 +56,7 @@ authRouter.post("/login", async (req, res) => {
         token,
         { maxAge: 7 * 24 * 60 * 60 * 1000 } /* 7 days in milliseconds */
       );
-      res.send("Logged in Successfully");
+      res.json({message : "Logged in successfully" , data : user});
     }
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
