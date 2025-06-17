@@ -49,8 +49,8 @@ const userSchema = new mongoose.Schema({
     preferrence: {
         type: String,
         validate(value) {
-            if (!["male", "female", "others" ,"all"].includes(value)) {
-                throw new Error("gender must be male , female or other")
+            if (!["male", "female", "others" ,"all"].includes(value.toLowerCase())) {
+                throw new Error("Preference must be male , female or other")
             }
         }
     },
@@ -78,7 +78,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.getJwtToken = function () {// do not use arrow function 
     const user = this;
-    const token = jwt.sign({_id : user._id} , "PP$20011976" , {expiresIn : "7d"})
+    const token = jwt.sign({_id : user._id} , process.env.TOKEN_KEY , {expiresIn : "7d"})
     return token
 }
 userSchema.methods.passwordCheck = async function (password) {

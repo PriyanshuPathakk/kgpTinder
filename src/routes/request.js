@@ -4,6 +4,7 @@ const requestRouter = express.Router();
 const { userAuth } = require("../../middlewares/auth.js");
 const User = require("../models/user.js");
 
+
 requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
@@ -68,7 +69,7 @@ requestRouter.post(
       if (!["accepted" , "rejected"].includes(status.toLowerCase())) {
         res.status(400).send("Invalid Status request : " + status);
       }
-      const userExist = await ConnectionRequest.findById(userId);
+      const userExist = await User.findById(userId);
       if (!userExist) {
         res.status(404).send("User Not Found");
       }
@@ -77,6 +78,9 @@ requestRouter.post(
         toUserId : loggedInUser._id,
         status : "interested"
       })
+      if (!request) {
+        return res.status(404).send("No pending request found from this user");
+      }
       request.status = status;
       const data  = await request.save();
       res.json({message : "request "+status , data : data});

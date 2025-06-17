@@ -1,2 +1,3 @@
-node_modules/
-learning.txt/
+node_modules
+learning.txt
+.env

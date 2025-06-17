@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnection } from "../utils/connectionSlice";
 import { useNavigate } from "react-router-dom";
 
 const Connectons = () => {
+  const [isLoading , setIsLoading] = useState(true)
   const dispatch = useDispatch();
   const connections = useSelector((store) => store.connection);
   const navigate = useNavigate()
@@ -22,12 +23,22 @@ const Connectons = () => {
         if (err.response?.status === 401) {
             navigate("/login", { replace: true });
           }
+      }finally{
+        setIsLoading(false);
       }
     };
     getConnections();
   }, [dispatch , navigate]);
+
+  if (isLoading)
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-spinner loading-lg text-accent"></span>
+            </div>
+        );
+
   if (!connections || connections.length === 0)
-    return <div className="flex justify-center items-center min-h-screen"><span className="loading loading-spinner loading-lg text-accent"></span></div>;
+    return <div className="flex justify-center items-center min-h-screen"><span className="text-3xl">No Connections</span></div>;
 
   return (
     <div>

@@ -27,8 +27,10 @@ authRouter.post("/signUp", async (req, res) => {
       age,
     });
 
-    await user.save();
-    res.send("User added succesfully");
+    const data = await user.save();
+    const token = user.getJwtToken();
+    res.cookie("token" , token , { maxAge: 7 * 24 * 60 * 60 * 1000 } )
+    res.json({message :"User added succesfully", data : data});
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
