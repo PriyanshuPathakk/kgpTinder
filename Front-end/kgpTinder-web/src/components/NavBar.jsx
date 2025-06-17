@@ -8,6 +8,9 @@ const NavBar = () => {
   const user = useSelector((store) => store.User);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const openFeed = ()=>navigate("/feed")
+
   const handleLogout = async ()=>{
     try{
     await axios.post(BASE_URL + "/logout" , null , {withCredentials: true});
@@ -22,7 +25,7 @@ const NavBar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm !h-28">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">KGP Sparks</a>
+        <a className="btn btn-ghost text-xl " onClick={()=>openFeed()}>KGP Sparks</a>
       </div>
       <div className="flex gap-2">
         <div className="dropdown dropdown-end mx-4">
@@ -49,19 +52,19 @@ const NavBar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link to={"/profile"} className="justify-between">
+              <Link to={"/profile"} className="justify-between text-lg">
                 Profile
                 <span className="badge">New</span>
               </Link>
             </li>
             <li>
-              <Link to={"/connections"}>Connections</Link>
+              <Link to={"/connections"} className="text-lg">Connections</Link>
             </li>
              <li>
-              <Link to={"/requests"}>Requests</Link>
+              <Link to={"/requests"} className="text-lg">Requests</Link>
             </li>
             <li>
-              <a onClick={handleLogout}>Logout</a>
+              <a onClick={handleLogout} className="text-lg">Logout</a>
             </li>
           </ul>
         </div>

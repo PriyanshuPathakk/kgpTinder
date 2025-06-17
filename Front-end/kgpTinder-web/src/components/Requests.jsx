@@ -1,27 +1,49 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect , useState } from 'react'
 import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { addRequest } from '../utils/requestSlice'
+import { addRequest, removeRequest } from '../utils/requestSlice'
 
 const Requests = () => {
     const dispatch = useDispatch();
     const data = useSelector((store) => store.request)
+const [isLoading, setIsLoading] = useState(true);
+    const handleRequest = async (status , userId) => {
+        try {
+            const res = await axios.post(BASE_URL + "/request/review/" + status +"/"+ userId ,{} , {withCredentials : true})
+            dispatch(removeRequest(res?.data?.data?._id/**here we send the req id */))
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
     useEffect(()=>{
         const fetchRequest = async () => {
         
         try {
             const res = await axios.get(BASE_URL + "/user/request/pending" , {withCredentials : true});
             dispatch(addRequest(res?.data?.data))
-            console.log(res?.data?.data)
         } catch (err) {
             console.error(err);
+        }finally{
+            setIsLoading(false)
         }
     }
         fetchRequest();
     } , [dispatch]);
+    if (isLoading)
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <span className="loading loading-spinner loading-lg text-accent"></span>
+            </div>
+        );
+
     if (!data || data.length === 0)
-    return <div className="flex justify-center items-center min-h-screen"><span className="loading loading-spinner loading-lg text-accent"></span></div>;
+        return (
+            <div className="flex justify-center items-center min-h-screen">
+                <h2 className="text-2xl text-gray-400">No Pending Requests</h2>
+            </div>
+        );
 
   return (
     <div>
@@ -46,6 +68,10 @@ const Requests = () => {
                 {about && <li className="text-xl p-0.5 ">About : {about}</li>}
 
               </ul>
+              <div className='flex items-center ml-auto space-x-4 p-8 ]'>
+              <button className="btn btn-secondary ml-4 text-lg" onClick={()=>handleRequest("accepted" , _id)}>Accept</button>
+              <button className="btn btn-accent ml-4 text-lg" onClick={()=>handleRequest("rejected" , _id)}>Reject</button>
+              </div>
             </div>
             </div>
           );

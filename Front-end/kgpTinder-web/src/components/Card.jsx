@@ -1,4 +1,23 @@
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { useDispatch } from "react-redux";
+import { removeFromFeed } from "../utils/feedSlice";
+
 const Card = ({user}) => {
+    const {_id } = user;
+    const dispatch = useDispatch()
+    
+
+    const handleSendRequest = async (status , userId) => {
+        try {
+            
+            await axios.post(BASE_URL + "/request/send/" + status + "/" + userId , {} , {withCredentials : true});
+            dispatch(removeFromFeed(_id))
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
   return (
     <div className="flex justify-center mt-10">
     <div className="card bg-slate-950 w-96 shadow-xl py-6 px-6">
@@ -17,8 +36,8 @@ const Card = ({user}) => {
           About : {user?.about || "Not Provided"}
         </p>
         <div className="card-actions justify-between">
-          <button className="btn btn-primary w-20 text-xl p-2 mt-4">Pass</button>
-          <button className="btn btn-secondary w-25 text-xl p-2 mt-4">Interested</button>
+          <button className="btn btn-primary w-20 text-xl p-2 mt-4" onClick={()=>{handleSendRequest("ignored" , user._id)}}>Pass</button>
+          <button className="btn btn-secondary w-25 text-xl p-2 mt-4" onClick={()=>{handleSendRequest("interested" , user._id)}}>Interested</button>
         </div>
       </div>
     </div>

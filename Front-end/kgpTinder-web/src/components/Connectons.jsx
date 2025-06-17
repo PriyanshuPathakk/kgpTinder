@@ -16,7 +16,6 @@ const Connectons = () => {
           withCredentials: true,
         });
         const connections = res?.data?.data;
-        console.log(connections);
         dispatch(addConnection(connections));
       } catch (err) {
         console.error(err);
@@ -53,6 +52,7 @@ const Connectons = () => {
                 {about && <li className="text-xl p-0.5 ">About : {about}</li>}
 
               </ul>
+              
             </div>
             </div>
           );
