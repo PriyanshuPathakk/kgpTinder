@@ -4,7 +4,7 @@ const Chat = require("../src/models/chat.js")
 const initializeSocket = (server)=>{
     const io = socket(server , {
         cors : {
-            origin : 'http://localhost:5173'
+            origin : 'https://kgpsparks.onrender.com'
         }
     })
 
