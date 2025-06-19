@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnection } from "../utils/connectionSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Connectons = () => {
   const [isLoading , setIsLoading] = useState(true)
@@ -50,7 +50,7 @@ const Connectons = () => {
           const { _id, firstName, lastName, gender, age, photoUrl , about , preferrence} =connection;
           return (
             <div key={_id} className="flex justify-center">
-            <div  className="bg-neutral-900 rounded-3xl p-2 my-5 shadow-lg flex w-5/12 ">
+            <div  className="bg-neutral-900 rounded-3xl p-2 my-5 shadow-lg flex w-5/12 items-center">
               <div className="avatar py-3 px-4">
                 <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
                   <img src={photoUrl} />
@@ -63,6 +63,7 @@ const Connectons = () => {
                 {about && <li className="text-xl p-0.5 ">About : {about}</li>}
 
               </ul>
+              <Link to={"/chat/" + _id} className="ml-auto items-center mr-5 "><button className="btn btn-outline btn-success text-xl ">Chat</button></Link>
               
             </div>
             </div>

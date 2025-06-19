@@ -139,7 +139,7 @@ const Login = () => {
             <p>
               <span className="text-lg">Don't have an account? </span>
               <span
-                className="text-lg hover:text-pink-300 hover:cursor-pointer"
+                className="text-lg text-pink-600 hover:text-pink-300 hover:cursor-pointer"
                 onClick={() => setIsLogin(false)}
               >
                 Sign Up here
