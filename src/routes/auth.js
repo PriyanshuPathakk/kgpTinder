@@ -29,8 +29,8 @@ authRouter.post("/signUp", async (req, res) => {
 
     const data = await user.save();
     const token = user.getJwtToken();
-    res.cookie("token" , token , { maxAge: 7 * 24 * 60 * 60 * 1000 } )
-    res.json({message :"User added succesfully", data : data});
+    res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 });
+    res.json({ message: "User added succesfully", data: data });
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
@@ -56,9 +56,13 @@ authRouter.post("/login", async (req, res) => {
       res.cookie(
         "token",
         token,
-        { maxAge: 7 * 24 * 60 * 60 * 1000 } /* 7 days in milliseconds */
+        {
+          maxAge: 7 * 24 * 60 * 60 * 1000,/* 7 days in milliseconds */
+          secure: true, // must be true on HTTPS
+          sameSite: "none",
+        } 
       );
-      res.json({message : "Logged in successfully" , data : user});
+      res.json({ message: "Logged in successfully", data: user });
     }
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
