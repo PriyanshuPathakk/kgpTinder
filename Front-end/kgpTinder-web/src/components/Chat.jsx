@@ -11,12 +11,12 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [recPhoto , setRecPhoto] = useState("")
   const messageEndRef = useRef(null);
-  const user = useSelector((store) => store.User);
+  const user = useSelector((store) => store.user);
   const userId = user?._id;
   const firstName = user?.firstName;
 
   useEffect(()=>{
-    messageEndRef.current?.scrollIntoView({behaviour : "smooth"})
+    messageEndRef.current?.scrollIntoView({behavior : "smooth"})
   } , [messages])
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Chat = () => {
 
     socket.on("messageReceived", ({ firstName, message, timestamp , senderId}) => {
       console.log(message);
-      setMessages([...messages, { firstName, message, timestamp , senderId }]);
+      setMessages((prev) => [...prev, { firstName, message, timestamp, senderId }]);
       setMessage("");
     });
 

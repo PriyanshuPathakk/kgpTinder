@@ -10,16 +10,16 @@ chatRouter.get("/chat/:targetUserId", userAuth, async (req, res) => {
     const loggedInUser = req.user;
 
     if(!loggedInUser || !targetUserId){
-        res.status(404).send("Chat not found");
+        return res.status(404).send("Chat not found");
     }
 
     let chat = await Chat.findOne({
       participants: { $all: [loggedInUser._id, targetUserId] },
     }).populate({path : "messages.sender" , select : "firstName _id"})
 
-    let receiver = await User.findById(targetUserId).select("_id , photoUrl")
+    let receiver = await User.findById(targetUserId).select("_id photoUrl")
     if(!receiver){
-        res.status(404).send("Receiver not found");
+        return res.status(404).send("Receiver not found");
     }
 
     if(!chat){

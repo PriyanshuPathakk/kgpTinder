@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const connectDB = require("./config/database.js")
@@ -15,10 +16,10 @@ const http = require("http");
 const server = http.createServer(app);
 initializeSocket(server);
 
-require("dotenv").config();
+
 
 app.use(cors({
-    origin: 'https://kgpsparks.onrender.com',
+    origin: 'http://localhost:5173',
     credentials : true,
     }))
 app.use(express.json());

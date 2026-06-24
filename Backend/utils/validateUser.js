@@ -1,6 +1,9 @@
 const validator = require("validator");
 const validateUser = (req)=> {
     const {firstName , lastName , password , gender , preferrence , emailID } = req.body;
+    if (!firstName || !lastName || !emailID || !password) {
+        throw new Error("All required fields must be provided");
+    }
     if(firstName.length < 2 || firstName.length > 20 ){
         throw new Error("Name must contain atleast 2 characters and atmost 20 Characters")
     }

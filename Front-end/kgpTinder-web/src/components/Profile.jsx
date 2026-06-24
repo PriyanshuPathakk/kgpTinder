@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Profile = () => {
   //const [user , setUser] = useState(null);
-  const user = useSelector((store) => store?.User);
+  const user = useSelector((store) => store?.user);
 
   return (
     user && (

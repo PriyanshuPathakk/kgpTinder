@@ -1,3 +1,9 @@
+# Dependencies
 node_modules
-learning.txt
+
+# Environment variables
 .env
+.env.development
+
+# Personal notes
+learning.txt

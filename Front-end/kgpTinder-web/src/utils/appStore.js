@@ -5,7 +5,7 @@ import connectionReducer from "../utils/connectionSlice.js"
 import requestReducer from "../utils/requestSlice.js"
 const appStore = configureStore({
     reducer : {
-        User : UserReducer,
+        user : UserReducer,
         feed : feedReducer,
         connection : connectionReducer,
         request : requestReducer,

@@ -1,34 +1,15 @@
 {
-  "name": "kgptinder",
+  "name": "kgptinder-monorepo",
   "version": "1.0.0",
-  "description": "tinder for kgpians",
-  "main": "src/app.js",
+  "private": true,
+  "description": "kgpTinder — Tinder for KGPians (monorepo)",
   "scripts": {
-    "start": "node src/app.js"
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd Backend && npm start",
+    "dev:frontend": "cd Front-end/kgpTinder-web && npm run dev",
+    "install:all": "cd Backend && npm install && cd \"../Front-end/kgpTinder-web\" && npm install"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PriyanshuPathakk/kgpTinder.git"
-  },
-  "keywords": [
-    "dating",
-    "kgpians"
-  ],
-  "author": "Priyanshu Pathak",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PriyanshuPathakk/kgpTinder/issues"
-  },
-  "homepage": "https://github.com/PriyanshuPathakk/kgpTinder#readme",
-  "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.1",
-    "socket.io": "^4.8.1",
-    "validator": "^13.15.15"
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

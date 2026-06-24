@@ -35,8 +35,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     const loggedInUser = req.user;
     const connections = await ConnectionRequest.find({
       $or: [
-        { fromUserId: loggedInUser, status: "accepted" },
-        { toUserId: loggedInUser, status: "accepted" },
+        { fromUserId: loggedInUser._id, status: "accepted" },
+        { toUserId: loggedInUser._id, status: "accepted" },
       ],
     })
       .populate({
@@ -48,10 +48,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
         select: "firstName lastName age gender photoUrl about preferrence",
       });
     if (connections.length == 0) {
-      res.status(200).send({ message: "No connectons available", data: [] });
+      return res.status(200).send({ message: "No connectons available", data: [] });
     }
     const data = connections.map((row) => {
-      if (row.fromUserId.equals(loggedInUser._id)) {
+      if (row.fromUserId._id.equals(loggedInUser._id)) {
         return row.toUserId;
       } 
       else return row.fromUserId;

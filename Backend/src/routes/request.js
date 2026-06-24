@@ -67,11 +67,11 @@ requestRouter.post(
       const status = req.params.status;
       const userId = req.params.userId;
       if (!["accepted" , "rejected"].includes(status.toLowerCase())) {
-        res.status(400).send("Invalid Status request : " + status);
+        return res.status(400).send("Invalid Status request : " + status);
       }
       const userExist = await User.findById(userId);
       if (!userExist) {
-        res.status(404).send("User Not Found");
+        return res.status(404).send("User Not Found");
       }
       const request =   await ConnectionRequest.findOne({
         fromUserId:userId,

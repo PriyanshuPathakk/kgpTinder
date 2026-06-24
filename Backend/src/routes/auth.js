@@ -29,8 +29,8 @@ authRouter.post("/signUp", async (req, res) => {
 
     const data = await user.save();
     const token = user.getJwtToken();
-    res.cookie("token", token, { maxAge: 7 * 24 * 60 * 60 * 1000 });
-    res.json({ message: "User added succesfully", data: data });
+    res.cookie("token" , token , { maxAge: 7 * 24 * 60 * 60 * 1000 } )
+    res.json({message :"User added succesfully", data : data});
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
@@ -42,27 +42,23 @@ authRouter.post("/login", async (req, res) => {
     if (!validator.isEmail(emailID)) {
       throw new Error("Please Enter a valid Email ID");
     }
-    const user = await User.find({ emailID: emailID });
-    if (user.length === 0) {
+    const user = await User.findOne({ emailID: emailID });
+    if (!user) {
       throw new Error("Invalid Credentials");
     }
-    const passwordMatch = await user[0].passwordCheck(password);
+    const passwordMatch = await user.passwordCheck(password);
     if (!passwordMatch) {
       throw new Error("Invalid Credentials");
     } else {
       // JWT creation
-      const token = await user[0].getJwtToken();
+      const token = await user.getJwtToken();
       // Pass the token to the user
       res.cookie(
         "token",
         token,
-        {
-          maxAge: 7 * 24 * 60 * 60 * 1000,/* 7 days in milliseconds */
-          secure: true, // must be true on HTTPS
-          sameSite: "none",
-        } 
+        { maxAge: 7 * 24 * 60 * 60 * 1000 } /* 7 days in milliseconds */
       );
-      res.json({ message: "Logged in successfully", data: user });
+      res.json({message : "Logged in successfully" , data : user});
     }
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);

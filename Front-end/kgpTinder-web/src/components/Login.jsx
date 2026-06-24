@@ -59,7 +59,7 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      dispatch(addUser(response?.data?.data[0]));
+      dispatch(addUser(response?.data?.data));
       navigate("/feed");
     } catch (err) {
       setErr(err.response.data);
